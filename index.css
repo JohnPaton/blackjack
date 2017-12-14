@@ -1,0 +1,38 @@
+body{
+    font-family: "Helvetica Neue", Arial, Sans-Serif;
+    color: rgb(50,50,50);
+    padding-left: 5%;
+    padding-right: 5%;
+    max-width: 900px;
+}
+
+button{
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    margin: 10px 10px;
+}
+
+.card{
+    height: 180px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px grey;
+    background-color: rgba(0,0,0,0);
+    backface-visibility: 
+}
+
+.label{
+    font-size: 24px;
+    padding: 18px 0 4px 8px;
+    /*transform: rotate(-90deg);*/
+    /*float: left;*/
+} 
+
+
+#action1{
+    background-color: green;
+}
+
+#action2{
+    background-color: red;
+}
