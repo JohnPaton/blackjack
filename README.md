@@ -1,5 +1,7 @@
 ## Learning JavaScript syntax with Blackjack
 
+### (This is not yet functional)
+
 A simplified version of Blackjack to teach myself a bit of JavaScript syntax. No betting or splitting, only hitting or standing, 1v1 against the dealer. 
 
 To try the game, head over to [johnpaton.net/blackjack](https://johnpaton.net/blackjack/). 
