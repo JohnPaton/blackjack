@@ -82,7 +82,7 @@ class Game():
             print(str(self))
 
             # shuffle if needs be
-            if len(self.deck.cards) <= 3:
+            if len(self.deck.cards) <= 2:
                 self.deck.shuffle(reset=True)
 
             if not player.standing:  # no turn if already standing

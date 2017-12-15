@@ -11,6 +11,9 @@ button{
     padding: 10px 20px;
     font-size: 14px;
     margin: 10px 10px;
+    width: 25%;
+    max-width: 200px;
+    min-width: 120px;
 }
 
 .card{
@@ -28,6 +31,17 @@ button{
     /*float: left;*/
 } 
 
+.info{
+    with: 100%;
+    background-color: rgb(200,200,200);
+}
+
+#info-box{
+    font-size: 14px;
+    float: left;
+    height: 100%;
+    width: 25%;
+}
 
 #action1{
     background-color: green;
