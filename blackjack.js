@@ -1,11 +1,14 @@
 // Options
 
-var cardRoot = '/resources',
+var cardRoot = (window.location.hostname == 'localhost') ? '/resources' : '/blackjack/resources',
     cardFronts = cardRoot + '/playing-cards-assets/svg-cards',
-    cardBack = cardRoot + 'playing-card-back.svg';
+    cardBack = cardRoot + '/playing-card-back.svg';
 
 var playerCards = document.getElementById('playerCards'),
-    dealerCards = document.getElementById('dealerCards');
+    dealerCards = document.getElementById('dealerCards'),
+    info = document.getElementById('infoContent');
+
+var winScores = {Player: 0, Dealer: 0}
 
 // Util functions
 function clearContents(element) {
@@ -53,16 +56,22 @@ function Card(name) {
             }
         },
 
-        display: function(element) {
-            var filePath = cardFronts+'/'+this.name+'.svg';
+        display: function(element, faceDown = false) {
+            var filePath;
+            if (!faceDown){
+                filePath = cardFronts+'/'+this.name+'.svg';
+            } else {
+                filePath = cardBack;
+            }
+            
             var img = document.createElement('img');
 
             img.setAttribute('src', filePath);
             img.setAttribute('class', 'card');
-
+            img.setAttribute('id', this.name);
             element.appendChild(img);
         }
-    };
+    }
     return card;
 }
 
@@ -89,7 +98,7 @@ function Deck() {
             this.cards = this.cards.concat(this.drawn);
             this.drawn = [];
             shuffle(this.cards); 
-            console.log("Deck shuffled");
+            info.innerHTML += ", deck shuffled"
             return this;
         },
 
@@ -160,6 +169,21 @@ function Dealer(deck, element) {
             this.stand();
         }
     };
+
+    dealer.hit = function() {
+        if (!this.standing){
+            var card = this.deck.draw();
+
+            if (this.cards.length == 0) {
+                card.display(this.element, false)
+            } else {
+                card.display(this.element, true)
+            }
+            
+            this.cards.push(card);
+        }
+    };
+
     return dealer;
 }
 
@@ -178,6 +202,7 @@ function Game() {
         },
 
         setupPlayers: function() {
+            info.innerHTML = "New round started"
             this.shuffleIfNeeded(4);
             this.player.reset();
             this.dealer.reset();
@@ -217,8 +242,49 @@ function Game() {
                     this.dealer.turn();
                 }
             };
+        },
 
-            // TODO: Think about how to do this wrt player interaction
+        winner: function() {
+            if ((this.dealer.score() > 21) |
+                ((this.player.score() == 21) 
+                    & (this.player.cards.length == 2)) |
+                ((this.player.score() > this.dealer.score()) 
+                    & (this.player.score() <= 21))
+               ) {
+                return 'Player';
+            } else {
+                return 'Dealer';
+            }
+        },
+
+        finish: function() {
+            // change the buttons
+            button1.innerHTML = "Again?";
+            button2.style.visibility = 'hidden';
+
+            clearContents(dealerCards)
+            for (var i = 0; i < this.dealer.cards.length; i++) {
+                this.dealer.cards[i].display(dealerCards)
+            }
+
+            var winner = game.winner();
+
+            winScores[winner] = winScores[winner] + 1;
+
+            if (this.dealer.score() > 21) {
+                info.innerHTML = 'Dealer bust! ';
+            } else if (this.player.score() > 21) {
+                info.innerHTML = 'Player bust! ';
+            } else {
+                info.innerHTML = '';
+            }
+
+            info.innerHTML = info.innerHTML + winner + ' is the winner! ';
+            info.innerHTML = info.innerHTML + " Total scores: Player " 
+                             + winScores.Player + ', Dealer ' + winScores.Dealer
+
+            // flip the dealer's cards
+            // return the winner
         }
     };
     return game.init();
@@ -240,18 +306,18 @@ function action1(){
     }
 
     if (!game.inProgress()) {
-        button1.innerHTML = "Play again?"
-        button2.style.visibility = 'hidden';
+        game.finish()
     }
 }
 
 function action2() {
-    if (game.inProgress()){
+    if (game.inProgress()) {
         game.turn('stand');
     };
 
-    button1.innerHTML = "Play again?"
-    button2.style.visibility = 'hidden';
+    if (!game.inProgress()) {
+        game.finish()
+    }
 }
 
 var game = Game(),

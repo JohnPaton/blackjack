@@ -1,47 +1,74 @@
 body{
     font-family: "Helvetica Neue", Arial, Sans-Serif;
+    font-size: 16px;
     color: rgb(50,50,50);
     padding-left: 5%;
     padding-right: 5%;
-    max-width: 900px;
+    max-width: 760px;
 }
 
 button{
     color: white;
     padding: 10px 20px;
-    font-size: 14px;
-    margin: 10px 10px;
+    font-size: 125%;
+    margin-left: 10px;
+    margin-top: 10px;
     width: 25%;
     max-width: 200px;
     min-width: 120px;
+
+}
+
+h1, p{
+    margin-bottom: 10px;
 }
 
 .card{
-    height: 180px;
+    max-height: 180px;
+    max-width: 20%;
     border-radius: 5px;
     box-shadow: 2px 2px 5px grey;
     background-color: rgba(0,0,0,0);
-    backface-visibility: 
+    margin: 2px 2px;
 }
 
 .label{
-    font-size: 24px;
-    padding: 18px 0 4px 8px;
+    font-size: 175%;
+    padding: 12px 0 4px 8px;
     /*transform: rotate(-90deg);*/
     /*float: left;*/
 } 
 
-.info{
-    with: 100%;
-    background-color: rgb(200,200,200);
+.small{
+    transform: scale(0.1);
+    transition: 1s;
 }
 
-#info-box{
-    font-size: 14px;
-    float: left;
-    height: 100%;
-    width: 25%;
+.full{
+    transform: scale(1);
+    transition: 0.1s;
 }
+
+#info{
+    width: 100%;
+    background-color: rgb(200,200,200);
+    min-height: 50px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center; 
+}
+
+#infoLabel{
+    font-size: 125%;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#infoContent{
+    padding-left: 10px;
+}
+
 
 #action1{
     background-color: green;
