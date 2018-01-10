@@ -1,5 +1,4 @@
 // Options
-
 var cardRoot = (window.location.hostname == 'localhost') ? '/resources' : '/blackjack/resources',
     cardFronts = cardRoot + '/playing-cards-assets/svg-cards',
     cardBack = cardRoot + '/playing-card-back.svg';
@@ -14,6 +13,13 @@ var winScores = {Player: 0, Dealer: 0}
 function clearContents(element) {
     while (element.firstChild) {
         element.removeChild(element.firstChild);
+    };
+}
+
+function preloadImages() {
+    var deck = Deck();
+    for (var i = 0; i < deck.cards.length; i++) {
+        document.createElement("img").setAttribute("src", deck.cards[i].path);
     };
 }
 
@@ -37,7 +43,8 @@ function shuffle(array) {
         }
 
     return array;
-    }
+}
+
 
 // Card & Deck functions
 function Card(name) {
@@ -56,10 +63,12 @@ function Card(name) {
             }
         },
 
+        path: cardFronts+'/'+name+'.svg',
+
         display: function(element, faceDown = false) {
             var filePath;
             if (!faceDown){
-                filePath = cardFronts+'/'+this.name+'.svg';
+                filePath = this.path;
             } else {
                 filePath = cardBack;
             }
@@ -110,6 +119,7 @@ function Deck() {
     };
     return deck;
 }
+
 
 // Player functions
 function Player(deck, element) {
@@ -186,6 +196,7 @@ function Dealer(deck, element) {
 
     return dealer;
 }
+
 
 // Game functions
 function Game() {
@@ -292,7 +303,6 @@ function Game() {
 
 
 // Button functions
-
 function action1(){
     if (game.inProgress()){
         game.turn('hit');
@@ -320,6 +330,10 @@ function action2() {
     }
 }
 
+// Preload the card images
+preloadImages();
+
+// Action time
 var game = Game(),
     player = game.player,
     dealer = game.dealer;
